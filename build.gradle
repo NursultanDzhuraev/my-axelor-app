@@ -1,0 +1,34 @@
+plugins {
+    id 'com.axelor.app'
+}
+
+axelor {
+    title = 'Axelor DEMO'
+}
+
+allprojects {
+
+    group = 'com.axelor.apps'
+    version = '8.2.8'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    afterEvaluate {
+        test {
+            useJUnitPlatform()
+            beforeTest { descriptor ->
+                logger.lifecycle('Running: ' + descriptor)
+            }
+        }
+    }
+}
+
+dependencies {
+    gradle.appModules.each { dir ->
+        implementation project(":modules:$dir.name")
+    }
+}
